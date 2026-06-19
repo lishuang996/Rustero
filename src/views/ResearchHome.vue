@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { NotificationOutlined } from "@ant-design/icons-vue";
+import AppHeader from "../components/AppHeader.vue";
 import { stats, projects, papers, mockTasks } from "../ts_scripts/mocks";
 import type { TaskItem } from "../ts_scripts/types";
 
@@ -19,44 +19,12 @@ const finishedTasks = computed(
 
 <template>
   <a-layout :class="['research-layout', { 'light-mode': !dark }]">
-    <a-layout-header class="app-header">
-      <div class="brand">
-        <img src="/rustero-icon.png" alt="Rustero" />
-        <strong>Rustero</strong>
-      </div>
-
-      <nav class="navigation">
-        <button
-          v-for="item in navItems"
-          :key="item"
-          :class="{ active: activeNav === item }"
-          @click="activeNav = item"
-        >
-          {{ item }}
-        </button>
-      </nav>
-
-      <a-space :size="8">
-        <a-button type="text" shape="circle" aria-label="搜索"
-        >⌕</a-button
-        >
-        <a-button
-          class="theme-toggle"
-          type="text"
-          shape="circle"
-          :aria-label="dark ? '切换到亮色主题' : '切换到暗色主题'"
-          @click="$emit('toggleTheme')"
-        >
-          {{ dark ? "☀" : "☾" }}
-        </a-button>
-        <a-badge dot>
-          <a-button type="text" shape="circle" aria-label="通知">
-            <NotificationOutlined />
-          </a-button>
-        </a-badge>
-        <a-avatar class="user-avatar">DX</a-avatar>
-      </a-space>
-    </a-layout-header>
+    <AppHeader
+      v-model="activeNav"
+      :items="navItems"
+      :dark="dark"
+      @toggle-theme="$emit('toggleTheme')"
+    />
 
     <a-layout-content class="page-content">
       <section class="page-title">
@@ -305,75 +273,6 @@ body {
     --assistant-start: #e6f4ff;
     --assistant-end: #f4ebff;
 }
-.app-header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    height: 64px;
-    padding: 0 24px;
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    border-bottom: 1px solid var(--border);
-    background: var(--header-bg) !important;
-    backdrop-filter: blur(18px);
-    transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease;
-}
-.brand {
-    min-width: 150px;
-    display: flex;
-    align-items: center;
-    gap: 11px;
-}
-.brand img {
-    width: 38px;
-    height: auto;
-    aspect-ratio: 1;
-    object-fit: contain;
-    flex: none;
-}
-.brand strong {
-    color: var(--brand);
-    font-size: 19px;
-    line-height: 1;
-}
-.navigation {
-    flex: 1;
-    align-self: stretch;
-    display: flex;
-    justify-content: center;
-}
-.navigation button {
-    position: relative;
-    padding: 0 15px;
-    border: 0;
-    color: var(--nav);
-    background: transparent;
-    cursor: pointer;
-}
-.navigation button:hover,
-.navigation button.active {
-    color: var(--nav-active);
-}
-.navigation button.active:after {
-    content: "";
-    position: absolute;
-    left: 18px;
-    right: 18px;
-    bottom: 0;
-    height: 3px;
-    border-radius: 3px 3px 0 0;
-    background: #1677ff;
-}
-.theme-toggle {
-    font-size: 16px;
-}
-.user-avatar {
-    color: #fff;
-    background: #1677ff;
-}
 .page-content {
     width: 100%;
     max-width: 1440px;
@@ -596,10 +495,6 @@ body {
     background: linear-gradient(135deg, #1677ff, #722ed1);
 }
 @media (max-width: 1080px) {
-    .navigation button {
-        padding: 0 8px;
-        font-size: 11px;
-    }
     .project-grid {
         grid-template-columns: 1fr;
     }
@@ -608,15 +503,6 @@ body {
     }
 }
 @media (max-width: 760px) {
-    .app-header {
-        padding: 0 14px;
-    }
-    .brand {
-        flex: 1;
-    }
-    .navigation {
-        display: none;
-    }
     .page-content {
         padding: 18px 14px 28px;
     }
