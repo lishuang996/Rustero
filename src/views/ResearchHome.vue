@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { NotificationOutlined } from "@ant-design/icons-vue";
 import { stats, projects, papers, mockTasks } from "../ts_scripts/mocks";
 import type { TaskItem } from "../ts_scripts/types";
 
@@ -50,9 +51,8 @@ const finishedTasks = computed(
                 </a-button>
                 <a-badge dot
                     ><a-button type="text" shape="circle" aria-label="通知"
-                        >◇</a-button
-                    ></a-badge
-                >
+                        ><NotificationOutlined /></a-button
+                ></a-badge>
                 <a-avatar class="user-avatar">DX</a-avatar>
             </a-space>
         </a-layout-header>
