@@ -101,6 +101,7 @@ const menuItems = computed<MenuProps["items"]>(() =>
 .brand strong {
   color: var(--brand);
   font-size: 19px;
+  font-weight: 500;
   line-height: 1;
 }
 
@@ -122,12 +123,12 @@ const menuItems = computed<MenuProps["items"]>(() =>
 .user-avatar {
   color: #fff;
   background: #1677ff;
+  font-weight: 600;
 }
 
 @media (max-width: 1080px) {
   .app-nav :deep(.ant-menu-item) {
     padding-inline: 8px;
-    font-size: 11px;
   }
 }
 
