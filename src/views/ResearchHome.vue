@@ -98,7 +98,7 @@ const finishedTasks = computed(
             </div>
           </a-card>
 
-          <a-card class="panel-card library-card" title="最近阅读">
+          <a-card class="panel-card" title="最近阅读">
             <template #extra>
               <a-button type="primary" size="small">＋ 导入文献</a-button>
             </template>
@@ -201,11 +201,6 @@ body {
 <style scoped>
 .research-layout {
   --page-bg: #080b12;
-  --header-bg: rgba(16, 20, 29, 0.94);
-  --border: #242b38;
-  --brand: #f5f7fa;
-  --nav: #8b96a7;
-  --nav-active: #e6f4ff;
   --title: #f0f3f8;
   --muted: #7f8b9b;
   --panel-border: #252c39;
@@ -228,20 +223,15 @@ body {
   overflow: auto;
   background:
     radial-gradient(
-      circle at 78% 0,
+      icircle at 78% 0,
       rgba(22, 119, 255, 0.1),
-      transparent 460px
+      transparent 460pxi
     ),
     var(--page-bg);
   transition: background-color 0.2s ease;
 }
 .research-layout.light-mode {
   --page-bg: #f5f7fa;
-  --header-bg: rgba(255, 255, 255, 0.94);
-  --border: #e5eaf0;
-  --brand: #182230;
-  --nav: #667085;
-  --nav-active: #1677ff;
   --title: #182230;
   --muted: #667085;
   --panel-border: #e4e7ec;
