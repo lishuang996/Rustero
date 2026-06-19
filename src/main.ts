@@ -14,6 +14,7 @@ import {
   Space,
   Statistic,
   Tag,
+  Typography,
 } from "ant-design-vue";
 import "ant-design-vue/dist/reset.css";
 import App from "./App.vue";
@@ -40,6 +41,10 @@ Object.entries({
   ASpace: Space,
   AStatistic: Statistic,
   ATag: Tag,
+  ATypography: Typography,
+  ATypographyText: Typography.Text,
+  ATypographyTitle: Typography.Title,
+  ATypographyParagraph: Typography.Paragraph,
 }).forEach(([name, component]) => app.component(name, component));
 
 app.mount("#app");

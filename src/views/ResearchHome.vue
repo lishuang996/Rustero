@@ -28,11 +28,15 @@ const finishedTasks = computed(
 
     <a-layout-content class="page-content">
       <section class="page-title">
-        <div>
-          <span>RESEARCH OVERVIEW</span>
-          <h1>科研工作台</h1>
-          <p>集中管理项目、文献与知识，让研究脉络保持清晰。</p>
-        </div>
+        <a-typography>
+          <a-typography-text class="page-label"
+          >RESEARCH OVERVIEW</a-typography-text
+          >
+          <a-typography-title :level="3">科研工作台</a-typography-title>
+          <a-typography-paragraph type="secondary">
+            集中管理项目、文献与知识，让研究脉络保持清晰。
+          </a-typography-paragraph>
+        </a-typography>
         <a-space>
           <a-button>导入文献</a-button>
           <a-button type="primary">新建科研项目</a-button>
@@ -265,25 +269,17 @@ body {
   justify-content: space-between;
   gap: 18px;
 }
-.page-title span {
+.page-label {
   color: #1677ff;
   font-size: 12px;
   font-weight: 600;
-  line-height: 20px;
   letter-spacing: 1.7px;
 }
-.page-title h1 {
-  margin: 3px 0 5px;
-  color: var(--title);
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 32px;
+.page-title :deep(.ant-typography) {
+  margin-bottom: 0;
 }
-.page-title p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 22px;
+.page-title :deep(.ant-typography h3) {
+  color: var(--title);
 }
 .stat-row {
   margin-bottom: 14px;
@@ -511,7 +507,7 @@ body {
   .page-title {
     align-items: flex-start;
   }
-  .page-title > div + * {
+  .page-title > a-typography + * {
     display: none;
   }
   .side-column {
