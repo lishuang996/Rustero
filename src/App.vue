@@ -31,7 +31,7 @@ watch(isDark, (value) => localStorage.setItem("rustero-theme", value ? "dark" : 
 </script>
 
 <template>
-  <a-config-provider :theme="appTheme">
-    <ResearchHome :dark="isDark" @toggle-theme="isDark = !isDark" />
-  </a-config-provider>
+    <a-config-provider :theme="appTheme">
+        <ResearchHome :dark="isDark" @toggle-theme="isDark = !isDark" />
+    </a-config-provider>
 </template>

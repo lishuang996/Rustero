@@ -38,7 +38,7 @@ const finishedTasks = computed(
 
             <a-space :size="8">
                 <a-button type="text" shape="circle" aria-label="搜索"
-                    >⌕</a-button
+                >⌕</a-button
                 >
                 <a-button
                     class="theme-toggle"
@@ -50,8 +50,8 @@ const finishedTasks = computed(
                     {{ dark ? "☀" : "☾" }}
                 </a-button>
                 <a-badge dot
-                    ><a-button type="text" shape="circle" aria-label="通知"
-                        ><NotificationOutlined /></a-button
+                ><a-button type="text" shape="circle" aria-label="通知"
+                ><NotificationOutlined /></a-button
                 ></a-badge>
                 <a-avatar class="user-avatar">DX</a-avatar>
             </a-space>
@@ -65,8 +65,8 @@ const finishedTasks = computed(
                     <p>集中管理项目、文献与知识，让研究脉络保持清晰。</p>
                 </div>
                 <a-space
-                    ><a-button>导入文献</a-button
-                    ><a-button type="primary">新建科研项目</a-button></a-space
+                ><a-button>导入文献</a-button
+                ><a-button type="primary">新建科研项目</a-button></a-space
                 >
             </section>
 
@@ -94,9 +94,9 @@ const finishedTasks = computed(
                 <div class="main-column">
                     <a-card class="panel-card" title="我的科研项目">
                         <template #extra
-                            ><a-button type="link" size="small"
-                                >查看全部</a-button
-                            ></template
+                        ><a-button type="link" size="small"
+                        >查看全部</a-button
+                        ></template
                         >
                         <div class="project-grid">
                             <a-card
@@ -117,14 +117,14 @@ const finishedTasks = computed(
                                 <p>{{ project.update }}</p>
                                 <footer>
                                     <a-avatar-group :max-count="3"
-                                        ><a-avatar
-                                            v-for="member in project.members"
-                                            :key="member"
-                                            size="small"
-                                            >{{ member }}</a-avatar
-                                        ></a-avatar-group
+                                    ><a-avatar
+                                        v-for="member in project.members"
+                                        :key="member"
+                                        size="small"
+                                    >{{ member }}</a-avatar
+                                    ></a-avatar-group
                                     ><a-button type="text" size="small"
-                                        >打开项目 →</a-button
+                                    >打开项目 →</a-button
                                     >
                                 </footer>
                             </a-card>
@@ -133,9 +133,9 @@ const finishedTasks = computed(
 
                     <a-card class="panel-card library-card" title="最近阅读">
                         <template #extra
-                            ><a-button type="primary" size="small"
-                                >＋ 导入文献</a-button
-                            ></template
+                        ><a-button type="primary" size="small"
+                        >＋ 导入文献</a-button
+                        ></template
                         >
                         <a-list :data-source="papers" item-layout="horizontal">
                             <template #renderItem="{ item }">
@@ -144,16 +144,16 @@ const finishedTasks = computed(
                                         :description="`${item.source} · ${item.year}`"
                                     >
                                         <template #avatar
-                                            ><a-avatar
-                                                shape="square"
-                                                class="pdf-avatar"
-                                                >PDF</a-avatar
-                                            ></template
+                                        ><a-avatar
+                                            shape="square"
+                                            class="pdf-avatar"
+                                        >PDF</a-avatar
+                                        ></template
                                         >
                                         <template #title
-                                            ><span>{{
-                                                item.title
-                                            }}</span></template
+                                        ><span>{{
+                                            item.title
+                                        }}</span></template
                                         >
                                     </a-list-item-meta>
                                     <a-tag>{{ item.tag }}</a-tag>
@@ -167,41 +167,41 @@ const finishedTasks = computed(
                     <a-card class="panel-card" title="快捷入口">
                         <div class="quick-grid">
                             <a-button class="quick-action"
-                                ><b>文</b
-                                ><span
-                                    >导入文献<small
-                                        >PDF / DOI / BibTeX</small
-                                    ></span
-                                ></a-button
+                            ><b>文</b
+                            ><span
+                            >导入文献<small
+                            >PDF / DOI / BibTeX</small
+                            ></span
+                            ></a-button
                             >
                             <a-button class="quick-action"
-                                ><b>项</b
-                                ><span
-                                    >新建项目<small>建立研究空间</small></span
-                                ></a-button
+                            ><b>项</b
+                            ><span
+                            >新建项目<small>建立研究空间</small></span
+                            ></a-button
                             >
                             <a-button class="quick-action"
-                                ><b>图</b
-                                ><span
-                                    >知识图谱<small>浏览主题关系</small></span
-                                ></a-button
+                            ><b>图</b
+                            ><span
+                            >知识图谱<small>浏览主题关系</small></span
+                            ></a-button
                             >
                             <a-button class="quick-action"
-                                ><b>AI</b
-                                ><span
-                                    >科研助手<small
-                                        >阅读、总结与问答</small
-                                    ></span
-                                ></a-button
+                            ><b>AI</b
+                            ><span
+                            >科研助手<small
+                            >阅读、总结与问答</small
+                            ></span
+                            ></a-button
                             >
                         </div>
                     </a-card>
 
                     <a-card class="panel-card" title="今日待办">
                         <template #extra
-                            ><a-tag color="blue"
-                                >{{ finishedTasks }} / {{ tasks.length }}</a-tag
-                            ></template
+                        ><a-tag color="blue"
+                        >{{ finishedTasks }} / {{ tasks.length }}</a-tag
+                        ></template
                         >
                         <div class="task-list">
                             <a-checkbox
@@ -211,8 +211,8 @@ const finishedTasks = computed(
                                 class="task-item"
                             >
                                 <span :class="{ completed: task.done }"
-                                    ><b>{{ task.title }}</b
-                                    ><small>{{ task.time }}</small></span
+                                ><b>{{ task.title }}</b
+                                ><small>{{ task.time }}</small></span
                                 >
                             </a-checkbox>
                         </div>
@@ -222,8 +222,8 @@ const finishedTasks = computed(
                         <div class="assistant-content">
                             <a-avatar :size="42" class="ai-avatar">AI</a-avatar
                             ><span
-                                ><small>RUSTERO COPILOT</small
-                                ><b>从一篇文献开始探索</b></span
+                            ><small>RUSTERO COPILOT</small
+                            ><b>从一篇文献开始探索</b></span
                             >
                         </div>
                         <a-button type="primary" block>打开科研助手</a-button>
