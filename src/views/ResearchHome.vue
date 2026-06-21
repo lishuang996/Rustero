@@ -29,9 +29,6 @@ const finishedTasks = computed(
     <a-layout-content class="page-content">
       <section class="page-title">
         <a-typography>
-          <a-typography-text class="page-label"
-          >RESEARCH OVERVIEW</a-typography-text
-          >
           <a-typography-title :level="3">科研工作台</a-typography-title>
           <a-typography-paragraph type="secondary">
             集中管理项目、文献与知识，让研究脉络保持清晰。
