@@ -1,34 +1,33 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
-import { NotificationOutlined } from "@ant-design/icons-vue";
+import { computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import {
+  BulbFilled,
+  BulbOutlined,
+  NotificationOutlined,
+  SearchOutlined,
+} from "@ant-design/icons-vue";
 import type { MenuProps } from "ant-design-vue";
 
-const props = defineProps<{
-  dark: boolean;
-  modelValue: string;
-  items: string[];
-}>();
+defineProps<{ dark: boolean }>();
+const emit = defineEmits<{ toggleTheme: [] }>();
 
-const emit = defineEmits<{
-  "update:modelValue": [value: string];
-  toggleTheme: [];
-}>();
+const route = useRoute();
+const router = useRouter();
 
-const current = ref<string[]>([props.modelValue]);
+const current = computed(() => [route.path]);
 
-watch(
-  () => props.modelValue,
-  (val) => {
-    current.value = [val];
-  },
-);
+const menuItems: MenuProps["items"] = [
+  { key: "/workspace", label: "科研工作台" },
+  { key: "/projects", label: "科研项目" },
+  { key: "/papers", label: "文献管理" },
+  { key: "/knowledge", label: "知识图谱" },
+  { key: "/assistant", label: "科研助手" },
+];
 
-const menuItems = computed<MenuProps["items"]>(() =>
-  props.items.map((item) => ({
-    key: item,
-    label: item,
-  })),
-);
+function onSelect(info: { key: string }) {
+  router.push(info.key);
+}
 </script>
 
 <template>
@@ -43,19 +42,21 @@ const menuItems = computed<MenuProps["items"]>(() =>
       mode="horizontal"
       :items="menuItems"
       class="app-nav"
-      @select="(info: { key: string }) => emit('update:modelValue', info.key)"
+      @select="onSelect"
     />
 
     <a-space :size="8">
-      <a-button type="text" shape="circle" aria-label="搜索">⌕</a-button>
+      <a-button type="text" shape="circle" aria-label="搜索">
+        <SearchOutlined />
+      </a-button>
       <a-button
-        class="theme-toggle"
         type="text"
         shape="circle"
         :aria-label="dark ? '切换到亮色主题' : '切换到暗色主题'"
         @click="emit('toggleTheme')"
       >
-        {{ dark ? "☀" : "☾" }}
+        <BulbFilled v-if="dark" />
+        <BulbOutlined v-else />
       </a-button>
       <a-badge dot>
         <a-button type="text" shape="circle" aria-label="通知">
@@ -117,9 +118,6 @@ const menuItems = computed<MenuProps["items"]>(() =>
   color: var(--nav-active);
 }
 
-.theme-toggle {
-  font-size: 16px;
-}
 .user-avatar {
   color: #fff;
   background: #1677ff;

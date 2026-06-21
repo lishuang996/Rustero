@@ -1,254 +1,155 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import AppHeader from "../components/AppHeader.vue";
 import { stats, projects, papers, mockTasks } from "../ts_scripts/mocks";
 import type { TaskItem } from "../ts_scripts/types";
-
-defineProps<{ dark: boolean }>();
-defineEmits<{ toggleTheme: [] }>();
-
-const activeNav = ref("科研工作台");
-const navItems = ["科研工作台", "科研项目", "文献管理", "知识图谱", "科研助手"];
 
 const tasks = ref<TaskItem[]>(mockTasks);
 
 const finishedTasks = computed(
   () => tasks.value.filter((item) => item.done).length,
 );
+
+const quickActions = [
+  { icon: "文", label: "导入文献", desc: "PDF / DOI / BibTeX" },
+  { icon: "项", label: "新建项目", desc: "建立研究空间" },
+  { icon: "图", label: "知识图谱", desc: "浏览主题关系" },
+  { icon: "AI", label: "科研助手", desc: "阅读、总结与问答" },
+];
 </script>
 
 <template>
-  <a-layout :class="['research-layout', { 'light-mode': !dark }]">
-    <AppHeader
-      v-model="activeNav"
-      :items="navItems"
-      :dark="dark"
-      @toggle-theme="$emit('toggleTheme')"
-    />
+  <section class="page-title">
+    <a-typography>
+      <a-typography-title :level="3">科研工作台</a-typography-title>
+      <a-typography-paragraph type="secondary">
+        集中管理项目、文献与知识，让研究脉络保持清晰。
+      </a-typography-paragraph>
+    </a-typography>
+    <a-space>
+      <a-button>导入文献</a-button>
+      <a-button type="primary">新建科研项目</a-button>
+    </a-space>
+  </section>
 
-    <a-layout-content class="page-content">
-      <section class="page-title">
-        <a-typography>
-          <a-typography-title :level="3">科研工作台</a-typography-title>
-          <a-typography-paragraph type="secondary">
-            集中管理项目、文献与知识，让研究脉络保持清晰。
-          </a-typography-paragraph>
-        </a-typography>
-        <a-space>
-          <a-button>导入文献</a-button>
-          <a-button type="primary">新建科研项目</a-button>
-        </a-space>
-      </section>
+  <a-row :gutter="[14, 14]" class="stat-row">
+    <a-col v-for="stat in stats" :key="stat.title" :xs="24" :sm="12" :lg="6">
+      <a-card class="stat-card" :bordered="true">
+        <i :style="{ background: stat.accent }"></i>
+        <a-statistic
+          :title="stat.title"
+          :value="stat.value"
+          :suffix="stat.suffix"
+        />
+        <div class="stat-note">{{ stat.note }}</div>
+      </a-card>
+    </a-col>
+  </a-row>
 
-      <a-row :gutter="[14, 14]" class="stat-row">
-        <a-col
-          v-for="stat in stats"
-          :key="stat.title"
-          :xs="24"
-          :sm="12"
-          :lg="6"
-        >
-          <a-card class="stat-card" :bordered="true">
-            <i :style="{ background: stat.accent }"></i>
-            <a-statistic
-              :title="stat.title"
-              :value="stat.value"
-              :suffix="stat.suffix"
-            />
-            <div class="stat-note">{{ stat.note }}</div>
-          </a-card>
-        </a-col>
-      </a-row>
-
-      <div class="dashboard-grid">
-        <div class="main-column">
-          <a-card class="panel-card" title="我的科研项目">
-            <template #extra>
-              <a-button type="link" size="small">查看全部</a-button>
-            </template>
-            <div class="project-grid">
-              <a-card
-                v-for="project in projects"
-                :key="project.title"
-                size="small"
-                class="project-card"
-              >
-                <div class="project-top">
-                  <span class="project-kind">{{ project.kind }}</span>
-                  <a-tag :color="project.color">{{ project.status }}</a-tag>
-                </div>
-                <h3>{{ project.title }}</h3>
-                <p>{{ project.update }}</p>
-                <footer>
-                  <a-avatar-group :max-count="3">
-                    <a-avatar
-                      v-for="member in project.members"
-                      :key="member"
-                      size="small"
-                    >
-                      {{ member }}
-                    </a-avatar>
-                  </a-avatar-group>
-                  <a-button type="text" size="small">打开项目 →</a-button>
-                </footer>
-              </a-card>
-            </div>
-          </a-card>
-
-          <a-card class="panel-card" title="最近阅读">
-            <template #extra>
-              <a-button type="primary" size="small">＋ 导入文献</a-button>
-            </template>
-            <a-list :data-source="papers" item-layout="horizontal">
-              <template #renderItem="{ item }">
-                <a-list-item class="paper-item">
-                  <a-list-item-meta
-                    :description="`${item.source} · ${item.year}`"
+  <a-row :gutter="16">
+    <a-col :xs="24" :lg="16" class="main-column">
+      <a-card class="panel-card" title="我的科研项目">
+        <template #extra>
+          <a-button type="link" size="small">查看全部</a-button>
+        </template>
+        <a-row :gutter="[11, 11]">
+          <a-col
+            v-for="project in projects"
+            :key="project.title"
+            :xs="24"
+            :sm="12"
+            :xl="8"
+          >
+            <a-card size="small" class="project-card">
+              <div class="project-top">
+                <span class="project-kind">{{ project.kind }}</span>
+                <a-tag :color="project.color">{{ project.status }}</a-tag>
+              </div>
+              <h3>{{ project.title }}</h3>
+              <p>{{ project.update }}</p>
+              <footer>
+                <a-avatar-group :max-count="3">
+                  <a-avatar
+                    v-for="member in project.members"
+                    :key="member"
+                    size="small"
                   >
-                    <template #avatar>
-                      <a-avatar shape="square" class="pdf-avatar">PDF</a-avatar>
-                    </template>
-                    <template #title>
-                      <span>{{ item.title }}</span>
-                    </template>
-                  </a-list-item-meta>
-                  <a-tag>{{ item.tag }}</a-tag>
-                </a-list-item>
-              </template>
-            </a-list>
-          </a-card>
+                    {{ member }}
+                  </a-avatar>
+                </a-avatar-group>
+                <a-button type="text" size="small">打开项目 →</a-button>
+              </footer>
+            </a-card>
+          </a-col>
+        </a-row>
+      </a-card>
+
+      <a-card class="panel-card" title="最近阅读">
+        <template #extra>
+          <a-button type="primary" size="small">＋ 导入文献</a-button>
+        </template>
+        <a-list :data-source="papers" item-layout="horizontal">
+          <template #renderItem="{ item }">
+            <a-list-item class="paper-item">
+              <a-list-item-meta :description="`${item.source} · ${item.year}`">
+                <template #avatar>
+                  <a-avatar shape="square" class="pdf-avatar">PDF</a-avatar>
+                </template>
+                <template #title>
+                  <span>{{ item.title }}</span>
+                </template>
+              </a-list-item-meta>
+              <a-tag>{{ item.tag }}</a-tag>
+            </a-list-item>
+          </template>
+        </a-list>
+      </a-card>
+    </a-col>
+
+    <a-col :xs="24" :lg="8" class="side-column">
+      <a-card class="panel-card" title="快捷入口">
+        <a-row :gutter="[9, 9]">
+          <a-col
+            v-for="action in quickActions"
+            :key="action.label"
+            :xs="24"
+            :sm="12"
+          >
+            <a-card hoverable size="small" class="quick-card">
+              <div class="quick-card-body">
+                <b>{{ action.icon }}</b>
+                <span>
+                  {{ action.label }}
+                  <small>{{ action.desc }}</small>
+                </span>
+              </div>
+            </a-card>
+          </a-col>
+        </a-row>
+      </a-card>
+
+      <a-card class="panel-card" title="今日待办">
+        <template #extra>
+          <a-tag color="blue"> {{ finishedTasks }} / {{ tasks.length }}</a-tag>
+        </template>
+        <div class="task-list">
+          <a-checkbox
+            v-for="task in tasks"
+            :key="task.title"
+            v-model:checked="task.done"
+            class="task-item"
+          >
+            <span :class="{ completed: task.done }">
+              <b>{{ task.title }}</b>
+              <small>{{ task.time }}</small>
+            </span>
+          </a-checkbox>
         </div>
-
-        <aside class="side-column">
-          <a-card class="panel-card" title="快捷入口">
-            <div class="quick-grid">
-              <a-button class="quick-action">
-                <b>文</b>
-                <span>
-                  导入文献
-                  <small>PDF / DOI / BibTeX</small>
-                </span>
-              </a-button>
-              <a-button class="quick-action">
-                <b>项</b>
-                <span>
-                  新建项目
-                  <small>建立研究空间</small>
-                </span>
-              </a-button>
-              <a-button class="quick-action">
-                <b>图</b>
-                <span>
-                  知识图谱
-                  <small>浏览主题关系</small>
-                </span>
-              </a-button>
-              <a-button class="quick-action">
-                <b>AI</b>
-                <span>
-                  科研助手
-                  <small>阅读、总结与问答</small>
-                </span>
-              </a-button>
-            </div>
-          </a-card>
-
-          <a-card class="panel-card" title="今日待办">
-            <template #extra>
-              <a-tag color="blue">
-                {{ finishedTasks }} / {{ tasks.length }}</a-tag
-              >
-            </template>
-            <div class="task-list">
-              <a-checkbox
-                v-for="task in tasks"
-                :key="task.title"
-                v-model:checked="task.done"
-                class="task-item"
-              >
-                <span :class="{ completed: task.done }">
-                  <b>{{ task.title }}</b>
-                  <small>{{ task.time }}</small>
-                </span>
-              </a-checkbox>
-            </div>
-          </a-card>
-        </aside>
-      </div>
-    </a-layout-content>
-  </a-layout>
+      </a-card>
+    </a-col>
+  </a-row>
 </template>
 
-<style>
-html,
-body,
-#app {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-}
-body {
-  overflow: hidden;
-}
-* {
-  box-sizing: border-box;
-}
-</style>
-
 <style scoped>
-.research-layout {
-  --page-bg: #080b12;
-  --title: #f0f3f8;
-  --muted: #7f8b9b;
-  --panel-border: #252c39;
-  --project-border: #292f3b;
-  --project-bg: #0d1119;
-  --project-title: #dce3ed;
-  --paper-title: #cfd6e0;
-  --quick-text: #d7dee8;
-  --quick-icon: #11294b;
-  --task-text: #cdd5df;
-  --task-done: #667181;
-  --assistant-start: #111d31;
-  --assistant-end: #151327;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol", "Noto Color Emoji";
-  min-height: 100%;
-  height: 100%;
-  overflow: auto;
-  background:
-    radial-gradient(
-      icircle at 78% 0,
-      rgba(22, 119, 255, 0.1),
-      transparent 460pxi
-    ),
-    var(--page-bg);
-  transition: background-color 0.2s ease;
-}
-.research-layout.light-mode {
-  --page-bg: #f5f7fa;
-  --title: #182230;
-  --muted: #667085;
-  --panel-border: #e4e7ec;
-  --project-border: #e4e7ec;
-  --project-bg: #fafbfc;
-  --project-title: #27364a;
-  --paper-title: #27364a;
-  --quick-text: #27364a;
-  --quick-icon: #e6f4ff;
-  --task-text: #344054;
-  --task-done: #98a2b3;
-  --assistant-start: #e6f4ff;
-  --assistant-end: #f4ebff;
-}
-.page-content {
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 24px 28px 36px;
-}
 .page-title {
   margin-bottom: 18px;
   display: flex;
@@ -292,24 +193,14 @@ body {
   font-size: 14px;
   line-height: 22px;
 }
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.75fr) minmax(260px, 0.85fr);
-  gap: 16px;
-  align-items: start;
-}
 .main-column,
 .side-column {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 16px;
 }
 .panel-card {
   border-color: var(--panel-border);
-}
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 11px;
 }
 .project-card {
   border-color: var(--project-border);
@@ -367,22 +258,15 @@ body {
   font-size: 12px;
   line-height: 20px;
 }
-.quick-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 9px;
+.quick-card {
+  border-color: var(--panel-border);
 }
-.quick-action {
-  height: auto;
-  min-height: 72px;
-  padding: 10px !important;
+.quick-card-body {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   gap: 9px;
-  text-align: left;
 }
-.quick-action > b {
+.quick-card-body > b {
   flex: none;
   width: 30px;
   height: 30px;
@@ -394,7 +278,7 @@ body {
   font-weight: 600;
   background: var(--quick-icon);
 }
-.quick-action > span {
+.quick-card-body > span {
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -402,7 +286,7 @@ body {
   font-size: 14px;
   line-height: 22px;
 }
-.quick-action small {
+.quick-card-body small {
   margin-top: 3px;
   overflow: hidden;
   color: var(--muted);
@@ -476,38 +360,20 @@ body {
   font-weight: 600;
   background: linear-gradient(135deg, #1677ff, #722ed1);
 }
-@media (max-width: 1080px) {
-  .project-grid {
-    grid-template-columns: 1fr;
-  }
-  .dashboard-grid {
-    grid-template-columns: minmax(0, 1.5fr) 250px;
-  }
-}
 @media (max-width: 760px) {
-  .page-content {
-    padding: 18px 14px 28px;
-  }
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
   .page-title {
     align-items: flex-start;
   }
   .page-title > a-typography + * {
     display: none;
   }
-  .side-column {
-    grid-template-columns: 1fr 1fr;
-  }
   .assistant-card {
     grid-column: 1/-1;
   }
 }
 @media (max-width: 520px) {
-  .side-column,
-  .quick-grid {
-    grid-template-columns: 1fr;
+  .side-column {
+    flex-direction: column;
   }
   .assistant-card {
     grid-column: auto;
