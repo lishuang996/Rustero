@@ -19,7 +19,13 @@ export interface PaperItem {
   title: string;
   source: string;
   year: number;
-  tag: string;
+  tags: string[];
+  authors: string[];
+  summary: string;
+  pdfUrl: string;
+  entryType: "journal" | "conference";
+  publishDate: string;
+  doi: string;
 }
 
 export interface TaskItem {
